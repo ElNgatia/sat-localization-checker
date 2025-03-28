@@ -77,25 +77,6 @@ class ArbGenerator {
     return placeholders;
   }
 
-  String _toCamelCase(String text) {
-    final cleanedText = text.replaceAll(RegExp(r'\{param[0-9]+\}'), '');
-    final words = cleanedText.trim().split(RegExp(r'\s+'));
-    if (words.isEmpty || words.every((w) => w.isEmpty)) return 'unnamedString';
-
-    final camelCaseWords = <String>[];
-    for (var i = 0; i < words.length; i++) {
-      final word = words[i];
-      if (word.isEmpty) continue;
-      if (i == 0) {
-        camelCaseWords.add(word.toLowerCase());
-      } else {
-        camelCaseWords
-            .add('${word[0].toUpperCase()}${word.substring(1).toLowerCase()}');
-      }
-    }
-    return camelCaseWords.join().replaceAll(RegExp(r'[^a-zA-Z0-9]'), '');
-  }
-
   bool _isValidArbKey(String key) {
     return RegExp(r'^[a-zA-Z][a-zA-Z0-9_]*$').hasMatch(key);
   }
