@@ -297,10 +297,11 @@ class LocalizationChecker {
 
   String _generateLocalizationKey(String content) {
     return content
-        .replaceAll(RegExp(r'[^\w\s]'), '')
-        .split(RegExp(r'\s+'))
-        .map((word) => word.toLowerCase())
-        .join('_');
+            .replaceAll(RegExp(r'[^\w\s]'), '')
+            .split(RegExp(r'\s+'))
+            .map((word) => word.toLowerCase())
+            .join('_') +
+        '_label';
   }
 }
 
