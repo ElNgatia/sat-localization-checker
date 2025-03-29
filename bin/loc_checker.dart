@@ -10,7 +10,7 @@ void main(List<String> args) {
         abbr: 'v', defaultsTo: false, help: 'Enable verbose logging')
     ..addFlag('generate-arb', defaultsTo: true, help: 'Generate en.arb file')
     ..addFlag('modify-files',
-    defaultsTo: false, help: 'Modify project files to replace untranslated strings')
+    defaultsTo: true, help: 'Modify project files to replace untranslated strings')
     ..addMultiOption('scan-paths',
         defaultsTo: [], help: 'Paths to scan (comma-separated)')
     ..addMultiOption('custom-ui', defaultsTo: [], help: 'Custom UI patterns')
@@ -42,6 +42,11 @@ void main(List<String> args) {
     final report = ReportGenerator.generate(checker.results);
     File(results['output']).writeAsStringSync(report);
     print('Report written to ${results['output']}');
+
+    if (results['modify-files']) {
+      checker.modifyFilesWithLocalizationKeys();
+      print('Files modified with localization keys.');
+    }
   }).catchError((e) {
     print('Error: $e');
     exit(1);

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:convert';
 
 import 'package:analyzer/dart/analysis/utilities.dart';
 import 'package:file/local.dart';
@@ -32,8 +33,7 @@ class LocalizationChecker {
     await _scanDartFiles();
     if (generateArb) {
       final outputDir = arbOutputDir ?? config.projectPath;
-      ArbGenerator(outputDir: outputDir, verbose: config.verbose)
-          .generateArbFile(_results);
+      ArbGenerator(outputDir: outputDir, verbose: config.verbose).generateArbFile(_results);
     }
   }
 
@@ -50,8 +50,7 @@ class LocalizationChecker {
     for (final scanPath in config.scanPaths) {
       final normalizedPath = path.normalize(scanPath);
       if (!Directory(normalizedPath).existsSync()) {
-        if (config.verbose)
-          print('Warning: Directory not found: $normalizedPath');
+        if (config.verbose) print('Warning: Directory not found: $normalizedPath');
         continue;
       }
 
@@ -63,8 +62,7 @@ class LocalizationChecker {
     return filesToProcess;
   }
 
-  Future<List<File>> _globDartFiles(
-      LocalFileSystem fileSystem, String normalizedPath) async {
+  Future<List<File>> _globDartFiles(LocalFileSystem fileSystem, String normalizedPath) async {
     final posixPath = normalizedPath.replaceAll('\\', '/');
     final dartGlob = Glob('$posixPath/**/*.dart', recursive: true);
     if (config.verbose) print('Glob pattern: ${dartGlob.pattern}');
@@ -78,13 +76,11 @@ class LocalizationChecker {
   List<File> _filterExcludedFiles(List<File> files) {
     return files.where((file) {
       final relativePath = path.relative(file.path, from: config.projectPath);
-      if (config.excludeDirs
-          .any((dir) => relativePath.startsWith('$dir${path.separator}'))) {
+      if (config.excludeDirs.any((dir) => relativePath.startsWith('$dir${path.separator}'))) {
         if (config.verbose) print('Excluded by dir: $relativePath');
         return false;
       }
-      if (config.excludeFiles
-          .any((fileName) => relativePath.endsWith(fileName))) {
+      if (config.excludeFiles.any((fileName) => relativePath.endsWith(fileName))) {
         if (config.verbose) print('Excluded by file: $relativePath');
         return false;
       }
@@ -98,8 +94,7 @@ class LocalizationChecker {
     for (var i = 0; i < files.length; i += batchSize) {
       final batch = files.sublist(i, (i + batchSize).clamp(0, files.length));
       await Future.wait(batch.map(_checkFile));
-      if (config.verbose)
-        print('Processed ${i + batch.length} of ${files.length} files');
+      if (config.verbose) print('Processed ${i + batch.length} of ${files.length} files');
     }
   }
 
@@ -108,8 +103,8 @@ class LocalizationChecker {
       final content = await file.readAsString();
       final relativePath = path.relative(file.path, from: config.projectPath);
       final parseResult = parseString(content: content);
-      final visitor = StringLiteralVisitor(parseResult.lineInfo,
-          verbose: config.verbose); // Pass verbose flag
+      final visitor =
+          StringLiteralVisitor(parseResult.lineInfo, verbose: config.verbose); // Pass verbose flag
 
       if (config.verbose) print('Parsing $relativePath');
       parseResult.unit.visitChildren(visitor);
@@ -130,30 +125,24 @@ class LocalizationChecker {
     }
   }
 
-  bool _shouldProcessLiteral(
-      StringLiteralInfo literal, List<String> lines, String filePath) {
-    if (stringFilter.shouldSkip(literal.content) ||
-        literal.content.trim().isEmpty) {
+  bool _shouldProcessLiteral(StringLiteralInfo literal, List<String> lines, String filePath) {
+    if (stringFilter.shouldSkip(literal.content) || literal.content.trim().isEmpty) {
       if (config.verbose)
-        print(
-            'Skipped (filter or empty): "${literal.content}" in $filePath:${literal.lineNumber}');
+        print('Skipped (filter or empty): "${literal.content}" in $filePath:${literal.lineNumber}');
       return false;
     }
 
     final contextLines = _getContext(lines, literal.lineNumber);
     if (!_isUiRelated(literal, contextLines)) {
       if (config.verbose)
-        print(
-            'Skipped (non-UI): "${literal.content}" in $filePath:${literal.lineNumber}');
+        print('Skipped (non-UI): "${literal.content}" in $filePath:${literal.lineNumber}');
       return false;
     }
 
     final line = lines[literal.lineNumber - 1];
-    if (stringFilter.isLocalized(
-        line, literal.content, keysFinder.localizedKeys)) {
+    if (stringFilter.isLocalized(line, literal.content, keysFinder.localizedKeys)) {
       if (config.verbose)
-        print(
-            'Skipped (localized): "${literal.content}" in $filePath:${literal.lineNumber}');
+        print('Skipped (localized): "${literal.content}" in $filePath:${literal.lineNumber}');
       return false;
     }
 
@@ -208,8 +197,7 @@ class LocalizationChecker {
                 literal.parentNode.contains('hint:') ||
                 literal.parentNode.contains('validationMessage:') ||
                 literal.parentNode.contains('InstanceCreationExpression') ||
-                config.customUiPatterns
-                    .any((pattern) => literal.parentNode.contains(pattern))));
+                config.customUiPatterns.any((pattern) => literal.parentNode.contains(pattern))));
   }
 
   List<String> _getContext(List<String> lines, int lineNumber) {
@@ -237,6 +225,83 @@ class LocalizationChecker {
       print('  ... and ${files.length - sampleSize} more');
     }
   }
+
+  void modifyFilesWithLocalizationKeys() {
+    final enJsonPath = path.join(config.projectPath, 'i18n', 'en.json');
+    final translationUtilPath =
+        path.join(config.projectPath, 'lib', 'legacy', 'translation_util.dart');
+
+    // Load existing en.json
+    final enJsonFile = File(enJsonPath);
+    final enJson = enJsonFile.existsSync()
+        ? json.decode(enJsonFile.readAsStringSync()) as Map<String, dynamic>
+        : <String, dynamic>{};
+
+    // Load existing TranslationLabel class
+    final translationUtilFile = File(translationUtilPath);
+    final translationUtilContent = translationUtilFile.readAsStringSync();
+    final translationLabelRegex = RegExp(r"static const (\w+) = '([^']+)';");
+    final existingKeys = {
+      for (final match in translationLabelRegex.allMatches(translationUtilContent))
+        match.group(2): match.group(1)
+    };
+
+    for (final result in _results) {
+      final file = File(path.join(config.projectPath, result.filePath));
+      if (!file.existsSync()) continue;
+
+      final lines = file.readAsLinesSync();
+      final lineIndex = result.lineNumber - 1;
+
+      if (lineIndex >= 0 && lineIndex < lines.length) {
+        final originalLine = lines[lineIndex];
+        final localizedKey = _generateLocalizationKey(result.content);
+
+        // Add to en.json if not already present
+        if (!enJson.containsKey(localizedKey)) {
+          enJson[localizedKey] = result.content;
+        }
+
+        // Add to TranslationLabel if not already present
+        if (!existingKeys.containsKey(localizedKey)) {
+          final newConst = "  static const $localizedKey = '$localizedKey';\n";
+          final insertIndex = translationUtilContent.lastIndexOf('}');
+          translationUtilFile.writeAsStringSync(
+            translationUtilContent.substring(0, insertIndex) +
+                newConst +
+                translationUtilContent.substring(insertIndex),
+          );
+          existingKeys[localizedKey] = localizedKey;
+        }
+
+        // Replace in Dart file
+        final replacement = originalLine.replaceFirst(
+          result.content,
+          'translate(TranslationLabel.$localizedKey, context)',
+        );
+        lines[lineIndex] = replacement;
+
+        if (config.verbose) {
+          print('Modified ${result.filePath}:${result.lineNumber}');
+          print('  Original: $originalLine');
+          print('  Modified: $replacement');
+        }
+      }
+
+      file.writeAsStringSync(lines.join('\n'));
+    }
+
+    // Save updated en.json
+    enJsonFile.writeAsStringSync(JsonEncoder.withIndent('  ').convert(enJson));
+  }
+
+  String _generateLocalizationKey(String content) {
+    return content
+        .replaceAll(RegExp(r'[^\w\s]'), '')
+        .split(RegExp(r'\s+'))
+        .map((word) => word.toLowerCase())
+        .join('_');
+  }
 }
 
 class ReportGenerator {
@@ -245,14 +310,12 @@ class ReportGenerator {
     buffer.writeln('Found ${results.length} non-localized strings:\n');
     for (var i = 0; i < results.length; i++) {
       final result = results[i];
-      buffer.writeln(
-          '${i + 1}. ${result.filePath}:${result.lineNumber} - "${result.content}"');
+      buffer.writeln('${i + 1}. ${result.filePath}:${result.lineNumber} - "${result.content}"');
       buffer.writeln('Context:');
       final startLine = result.lineNumber - 2;
       for (var j = 0; j < result.context.length; j++) {
         final lineNum = startLine + j + 1;
-        final indicator =
-            result.context[j].contains(result.content) ? '>' : ' ';
+        final indicator = result.context[j].contains(result.content) ? '>' : ' ';
         buffer.writeln('$indicator $lineNum: ${result.context[j]}');
       }
       buffer.writeln();

@@ -52,7 +52,7 @@ class ArbGenerator {
         key = '$baseKey$counter';
       }
 
-      valueToKeyMap[content] = key;
+      valueToKeyMap[content] = key; // Ensure consistent key generation
       arbMap[key] = content;
       if (content.contains('{')) {
         arbMap['@$key'] = {
