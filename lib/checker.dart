@@ -246,6 +246,10 @@ class LocalizationChecker {
         match.group(2): match.group(1)
     };
 
+    // Track new translation keys to add
+    final newTranslationLabels = <String>[];
+    
+    // Process each non-localized string
     for (final result in _results) {
       final file = File(path.join(config.projectPath, result.filePath));
       if (!file.existsSync()) continue;
@@ -262,22 +266,16 @@ class LocalizationChecker {
           enJson[localizedKey] = result.content;
         }
 
-        // Add to TranslationLabel if not already present
-        if (!existingKeys.containsKey(localizedKey)) {
-          final newConst = "  static const $localizedKey = '$localizedKey';\n";
-          final insertIndex = translationUtilContent.lastIndexOf('}');
-          translationUtilFile.writeAsStringSync(
-            translationUtilContent.substring(0, insertIndex) +
-                newConst +
-                translationUtilContent.substring(insertIndex),
-          );
-          existingKeys[localizedKey] = localizedKey;
+        // Add to new labels list if not already in TranslationLabel
+        if (!existingKeys.containsKey(localizedKey) && 
+            !newTranslationLabels.contains("  static const ${localizedKey}_label = '${localizedKey}_label';")) {
+          newTranslationLabels.add("  static const ${localizedKey}_label = '${localizedKey}_label';");
         }
 
         // Replace in Dart file
         final replacement = originalLine.replaceFirst(
           result.content,
-          'translate(TranslationLabel.$localizedKey, context)',
+          '\${translate(TranslationLabel.${localizedKey}_label, context)}',
         );
         lines[lineIndex] = replacement;
 
@@ -286,13 +284,26 @@ class LocalizationChecker {
           print('  Original: $originalLine');
           print('  Modified: $replacement');
         }
+        
+        file.writeAsStringSync(lines.join('\n'));
       }
-
-      file.writeAsStringSync(lines.join('\n'));
     }
 
     // Save updated en.json
     enJsonFile.writeAsStringSync(JsonEncoder.withIndent('  ').convert(enJson));
+    
+    // Append all new translation labels to the TranslationLabel class in a single operation
+    if (newTranslationLabels.isNotEmpty) {
+      final insertIndex = translationUtilContent.lastIndexOf('}');
+      final updatedContent = translationUtilContent.substring(0, insertIndex) +
+          newTranslationLabels.join('\n') + '\n' +
+          translationUtilContent.substring(insertIndex);
+      translationUtilFile.writeAsStringSync(updatedContent);
+      
+      if (config.verbose) {
+        print('Added ${newTranslationLabels.length} new translation labels to TranslationLabel class');
+      }
+    }
   }
 
   String _generateLocalizationKey(String content) {
@@ -300,8 +311,7 @@ class LocalizationChecker {
             .replaceAll(RegExp(r'[^\w\s]'), '')
             .split(RegExp(r'\s+'))
             .map((word) => word.toLowerCase())
-            .join('_') +
-        '_label';
+            .join('_');
   }
 }
 
