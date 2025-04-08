@@ -8,9 +8,9 @@ void main(List<String> args) {
   final parser = ArgParser()
     ..addFlag('verbose',
         abbr: 'v', defaultsTo: false, help: 'Enable verbose logging')
-    ..addFlag('generate-arb', defaultsTo: true, help: 'Generate en.arb file')
+    ..addFlag('generate-arb', defaultsTo: false, help: 'Generate en.arb file')
     ..addFlag('modify-files',
-    defaultsTo: true, help: 'Modify project files to replace untranslated strings')
+    defaultsTo: false, help: 'Modify project files to replace untranslated strings')
     ..addMultiOption('scan-paths',
         defaultsTo: [], help: 'Paths to scan (comma-separated)')
     ..addMultiOption('custom-ui', defaultsTo: [], help: 'Custom UI patterns')
