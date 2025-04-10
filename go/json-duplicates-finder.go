@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"os"
 )
 
@@ -15,7 +14,7 @@ func main() {
 	flag.Parse()
 
 	// Read input JSON
-	data, err := ioutil.ReadFile(*inputFile)
+	data, err := os.ReadFile(*inputFile)
 	if err != nil {
 		fmt.Println("❌ Error reading input file:", err)
 		os.Exit(1)
@@ -71,7 +70,7 @@ func writeJSON(filename string, data interface{}) {
 		fmt.Println("❌ Error creating JSON for", filename, ":", err)
 		os.Exit(1)
 	}
-	if err := ioutil.WriteFile(filename, outputJSON, 0644); err != nil {
+	if err := os.WriteFile(filename, outputJSON, 0644); err != nil {
 		fmt.Println("❌ Error writing file", filename, ":", err)
 		os.Exit(1)
 	}

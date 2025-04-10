@@ -1,7 +1,27 @@
+# SAT Localization Checker
 
 ## Overview
 
 Localization Checker (`loc_checker`) is a command-line tool for Flutter projects that helps identify non-localized strings in your codebase and automates the generation of localization files. It's designed to be run locally in your project on both Windows and Linux systems.
+
+## Project Structure
+
+This project is organized as a monorepo with two main components:
+
+- **Dart Tool**: Identifies non-localized strings and generates ARB files
+- **Go Tool**: Checks for duplicates in generated JSON/ARB files
+
+```
+sat-localization-checker/
+├─ dart/               # Main localization checker tool
+│  ├─ bin/
+│  │  └─ loc_checker.dart
+├─ go/                 # JSON duplicate checker tool
+│  └─ duplicate_checker.go
+├─ scripts/            # Integration scripts
+│  ├─ check_localization.sh
+│  └─ check_localization.bat
+```
 
 ## Features
 
@@ -10,6 +30,7 @@ Localization Checker (`loc_checker`) is a command-line tool for Flutter projects
 - **Code Modification**: Can automatically update your code to use localization keys
 - **Customizable Scanning**: Configure which paths to scan and which UI patterns to look for
 - **Detailed Reporting**: Generates reports showing where non-localized strings appear
+- **Duplicate Detection**: Identifies duplicate keys and values in generated ARB files
 
 ## Installation
 
@@ -22,24 +43,31 @@ Since this tool is intended for local use rather than publication to pub.dev, yo
    git clone https://github.com/ElNgatia/sat-localization-checker.git
    ```
 
-2. Get dependencies:
+2. Get Dart dependencies:
    ```
-   cd sat-localization-checker
+   cd sat-localization-checker/dart
    dart pub get
    ```
 
-3. Run directly:
+3. Build Go tool:
    ```
-   dart run bin/loc_checker.dart [arguments]
+   # For Linux
+   cd ../go
+   go build -o ../bin/duplicate_checker
+
+   # For Windows
+   cd ..\go
+   go build -o ..\bin\duplicate_checker.exe
    ```
 
-## Usage
+## Using the Dart Localization Checker
 
 ### Basic Command
 
 Scan a project and generate a report:
 
 ```
+cd dart
 dart run bin/loc_checker.dart path/to/solutech-sat -o report.txt
 ```
 
@@ -75,7 +103,37 @@ Enable detailed logging for debugging:
 dart run bin/loc_checker.dart path/to/solutech-sat --verbose -o report.txt
 ```
 
-## Command-Line Options
+## Using the Go Duplicate Checker
+
+The Go tool checks for duplicate keys and values in your ARB/JSON files:
+
+```
+# Linux
+./bin/duplicate_checker -input path/to/en.json -output cleaned.json -removed removed.json
+
+# Windows
+bin\duplicate_checker.exe -input path\to\en.json -output cleaned.json -removed removed.json
+```
+
+### Options
+
+- `-input`: Path to the input JSON file (default: "en.json")
+- `-output`: Path to write cleaned JSON file (default: "cleaned.json")
+- `-removed`: Path to write removed duplicates (default: "removed.json")
+
+## Running Both Tools Together
+
+You can use the provided scripts to run both tools in sequence:
+
+```
+# Linux
+./scripts/check_localization.sh path/to/solutech-sat --generate-arb
+
+# Windows
+scripts\check_localization.bat path\to\solutech-sat --generate-arb
+```
+
+## Command-Line Options for Dart Tool
 
 | Option | Description | Default |
 |--------|-------------|---------|
@@ -130,14 +188,21 @@ The generated ARB file contains all identified strings with appropriate keys:
 }
 ```
 
+### Duplicate Checker Output
+
+The Go duplicate checker produces two files:
+- `cleaned.json`: Original file with duplicates removed
+- `removed.json`: Only the duplicate entries that were removed
+
 ## How It Works
 
-1. **Scanning**: The tool scans your Dart files using the Dart analyzer to build an AST (Abstract Syntax Tree).
+1. **Scanning**: The Dart tool scans your Dart files using the Dart analyzer to build an AST.
 2. **Detection**: It identifies string literals in UI contexts like `Text()` widgets, form validators, etc.
 3. **Filtering**: Non-UI strings, URLs, empty strings, and already localized strings are filtered out.
 4. **Reporting**: All non-localized strings are collected into a comprehensive report.
 5. **ARB Generation**: When enabled, an ARB file is created with appropriate keys and placeholder metadata.
 6. **Code Modification**: When enabled, source files are updated to use localization keys.
+7. **Duplicate Checking**: The Go tool analyzes the generated ARB file to find and remove duplicates.
 
 ## Project Configuration
 
@@ -154,11 +219,10 @@ excludeDirs: const [
 ]
 ```
 
-
 ## Troubleshooting
 
 - **Missing dependencies**: Make sure to run `dart pub get` before using the tool.
-
+- **Go build errors**: Ensure you have Go installed (`go version`) and that the build command executes successfully.
 - **Path issues**: Use forward slashes (`/`) in paths even on Windows for best results.
 
 ## Limitations
@@ -166,4 +230,3 @@ excludeDirs: const [
 - The tool assumes a standard Flutter project structure.
 - It may not detect all possible ways of defining localized strings.
 - Complex string interpolations might not be handled correctly.
-
