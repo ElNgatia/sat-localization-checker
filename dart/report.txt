@@ -1,0 +1,310 @@
+Found 44 non-localized strings:
+
+1. lib/features/comments/presentation/screens/all_comments_screen.dart:89 - "23rd Sept 2021"
+Context:
+  88:                   Text(
+> 89:                     "23rd Sept 2021",
+  90:                     style: TextStyle(fontSize: 11, color: Colors.grey[600]),
+  91:                   )
+
+2. lib/features/comments/presentation/screens/customer_comments_screen.dart:85 - "27th April 2022"
+Context:
+  84:                       Text(
+> 85:                         "27th April 2022",
+  86:                         style: TextStyle(color: Colors.grey[400]),
+  87:                       ),
+
+3. lib/features/start_end_day/presentation/screen/close_day_screen.dart:259 - "Why did you sell {param0} only?*"
+Context:
+  258:                                                   labelText: startEndDayReport != null
+  259:                                                       ? "Why did you sell ${formatCurrency(statsManager?.userSummaryReport?.achievedSales ?? 0)} only?*"
+  260:                                                       : "Why have you sold only ${formatCurrency(statsManager?.userSummaryReport?.achievedSales ?? 0)}?",
+  261:                                                   labelStyle: TextStyle(fontSize: 14)),
+
+4. lib/features/start_end_day/presentation/screen/close_day_screen.dart:260 - "Why have you sold only {param0}?"
+Context:
+  259:                                                       ? "Why did you sell ${formatCurrency(statsManager?.userSummaryReport?.achievedSales ?? 0)} only?*"
+  260:                                                       : "Why have you sold only ${formatCurrency(statsManager?.userSummaryReport?.achievedSales ?? 0)}?",
+  261:                                                   labelStyle: TextStyle(fontSize: 14)),
+  262:                                               validator: (value) => bloc.sellsTargetValidation())),
+
+5. lib/features/start_end_day/presentation/screen/close_day_screen.dart:617 - "Why did you sell {param0} only?*"
+Context:
+  616:                                                         labelText: startEndDayReport != null
+  617:                                                             ? "Why did you sell ${formatCurrency(statsManager?.userSummaryReport?.achievedSales ?? 0)} only?*"
+  618:                                                             : "Why have you sold only ${formatCurrency(statsManager?.userSummaryReport?.achievedSales ?? 0)}?",
+  619:                                                         labelStyle: TextStyle(fontSize: 14)),
+
+6. lib/features/start_end_day/presentation/screen/close_day_screen.dart:618 - "Why have you sold only {param0}?"
+Context:
+  617:                                                             ? "Why did you sell ${formatCurrency(statsManager?.userSummaryReport?.achievedSales ?? 0)} only?*"
+  618:                                                             : "Why have you sold only ${formatCurrency(statsManager?.userSummaryReport?.achievedSales ?? 0)}?",
+  619:                                                         labelStyle: TextStyle(fontSize: 14)),
+  620:                                                     validator: (value) =>
+
+7. lib/features/orders/presentation/screens/order_tracker_invoices_screen.dart:83 - "Pending: {param0}"
+Context:
+  82:                                     Text(
+  83:                                         "Pending: ${deliveryItem.pendingQuantity}"),
+  84:                                     const SizedBox(height: 5.0),
+  85:                                   ],
+
+8. lib/features/orders/presentation/screens/order_tracking_screen.dart:159 - "Found {param0} orders for '{param1}' {param2} "
+Context:
+  158:                                       child: Text(
+  159:                                         "Found ${filteredRepOrders.length} orders for '${bloc.searchTerm}' ${bloc.selectedCategory != null ? "in ${bloc.selectedCategory} stage" : ""} ",
+  160:                                       ),
+  161:                                     ),
+
+9. lib/features/delivery_v2/presentation/logisitics_trip_screen.dart:53 - "Trip id :{param0}"
+Context:
+  52:             Text('${delivery.route}', style: TextStyle(fontSize: 16)),
+  53:             Text('Trip id :${delivery.tripId}', style: TextStyle(fontSize: 16)),
+  54:             Expanded(
+  55:               child: Column(
+
+10. lib/features/delivery_v2/presentation/logistics_delivery_screen.dart:453 - "CONFIRM {param0}"
+Context:
+  452:                                       child: Text(
+  453:                                           'CONFIRM ${activity.title.toUpperCase()}'),
+  454:                                     )
+  455:                                   ],
+
+11. lib/features/delivery_v2/presentation/deliveries_screen_v2.dart:88 - "# {param0} id :  {param1} "
+Context:
+  87:                                     Text(
+  88:                                         '# ${delivery.deliveryDocumentType} id :  ${delivery.deliveryDocumentRefrence?.erpReference ?? delivery.deliveryDocumentRefrence?.id ?? ""} '),
+  89:                                     Spacer(),
+  90:                                     Icon(
+
+12. lib/features/customer/presentation/screens/tabs/payments_tab.dart:263 - "CREDIT LIMIT"
+Context:
+  262:                           child: pdf_widgets.Text(
+> 263:                             "CREDIT LIMIT",
+  264:                             style: pdf_widgets.TextStyle(
+  265:                               fontWeight: pdf_widgets.FontWeight.bold,
+
+13. lib/features/customer/presentation/screens/tabs/payments_tab.dart:283 - "AVAILABLE CREDIT LIMIT"
+Context:
+  282:                           child: pdf_widgets.Text(
+> 283:                             "AVAILABLE CREDIT LIMIT",
+  284:                             style: pdf_widgets.TextStyle(
+  285:                               fontWeight: pdf_widgets.FontWeight.bold,
+
+14. lib/features/customer/presentation/screens/tabs/payments_tab.dart:341 - "CREDIT LIMIT"
+Context:
+  340:                               child: pdf_widgets.Text(
+> 341:                                 "CREDIT LIMIT",
+  342:                                 style: pdf_widgets.TextStyle(
+  343:                                   fontWeight: pdf_widgets.FontWeight.bold,
+
+15. lib/features/customer/presentation/screens/tabs/payments_tab.dart:361 - "AVAILABLE CREDIT LIMIT"
+Context:
+  360:                               child: pdf_widgets.Text(
+> 361:                                 "AVAILABLE CREDIT LIMIT",
+  362:                                 style: pdf_widgets.TextStyle(
+  363:                                   fontWeight: pdf_widgets.FontWeight.bold,
+
+16. lib/features/customer/presentation/widgets/checkout_sign_dialog.dart:356 - "otp was sent to {param0}."
+Context:
+  355:                                                 Text(
+  356:                                                   'otp was sent to ${_phoneNumberCtrl.text}.',
+  357:                                                   style: TextStyle(
+  358:                                                       fontSize: 12,
+
+17. lib/features/customer/presentation/widgets/tasks_stats.dart:37 - "  (Total: {param0})"
+Context:
+  36:                           Text(
+  37:                               "  (Total: ${statsManager.tasksSummaryReport?.totalTasks ?? 0})",
+  38:                               style: TextStyle(
+  39:                                   color: Colors.black54, fontSize: 12)),
+
+18. lib/features/inventory/presentation/screen/add_stock_screen.dart:104 - ", YOUR LIMIT: {param0}"
+Context:
+  103:                                           Text(
+  104:                                               ", YOUR LIMIT: ${formatCurrency(bloc.stockpoint?.limitValue ?? 0)}",
+  105:                                               style: TextStyle(
+  106:                                                   fontWeight: FontWeight.w500,
+
+19. lib/features/inventory/presentation/screen/inventory_checkin_screen.dart:163 - "STOCKPOINT CHECKIN: {param0}"
+Context:
+  162:                                                 Text(
+  163:                                                   "STOCKPOINT CHECKIN: ${formatDate(sessionInventoryManager.session?.startTime, "jms")}",
+  164:                                                   style: TextStyle(
+  165:                                                     fontSize: 12.0,
+
+20. lib/features/inventory/presentation/screen/inventory_screen.dart:244 - "TOTAL: {param0} {param1}"
+Context:
+  243:                                                 child: Text(
+  244:                                                   "TOTAL: ${authManager.user?.country?.currencyCode} ${formatCurrency(bloc.totalValue)}",
+  245:                                                   style: TextStyle(
+  246:                                                       fontSize: 18,
+
+21. lib/features/activations/presentation/screens/activations_screen.dart:462 - "{param0} Day(s)"
+Context:
+  461:                                                             Text(
+  462:                                                               "${activation.duration} Day(s)",
+  463:                                                               style: TextStyle(
+  464:                                                                   color: Colors
+
+22. lib/features/activations/presentation/screens/activations_screen.dart:637 - "{param0} Day(s)"
+Context:
+  636:                                                             Text(
+  637:                                                               "${activation.duration} Day(s)",
+  638:                                                               style: TextStyle(
+  639:                                                                   color: Colors
+
+23. lib/features/extra_display_availability/presentation/selected_extra_availability.dart:273 - " ({param0} pieces)"
+Context:
+  272:               child:
+  273:                   Text(" ($quantity pieces)", style: TextStyle(fontSize: 10))),
+  274:         ],
+  275:       ),
+
+24. lib/features/cme/presentation/widgets/activity_widget.dart:35 - "Participant {param0} "
+Context:
+  34:               title:
+  35:                   "Participant ${activity.participants.length > 1 ? "categories:" : "category"} ",
+  36:               body:
+  37:                   "${activity.participants.map((participant) => participant.title).join(', ')}"),
+
+25. lib/features/location/domain/location_manager.dart:115 - "You are far away from {param0}. "
+Context:
+  114:           showToast(
+  115:               "You are far away from ${customer?.shopName ?? "the customer"}. ");
+  116:           autoCheckoutController.add(true);
+  117:           if (!roleManager.hasRole(Roles.DISABLE_FAKE_LOCATION) &&
+
+26. lib/features/credit_note/presentation/screens/list_credit_note_request.dart:163 - "Invoice ID: #{param0}"
+Context:
+  162:                   // Text("Customer: ${creditNoteRequest.customerName}"),
+  163:                   Text("Invoice ID: #${creditNoteRequest.orderId}"),
+  164:                   Text("Reason: ${creditNoteRequest.reason}"),
+  165:                   Text("Total: ${creditNoteRequest.totalCost}"),
+
+27. lib/features/reports/presentation/screens/brand_report_screen.dart:199 - "Total {param0}%"
+Context:
+  198:                                     Text(
+  199:                                         "Total ${brandReport?.averageCoverage.toString().toCurrency()}%",
+  200:                                         style: TextStyle(
+  201:                                             fontWeight: FontWeight.bold,
+
+28. lib/features/assets/presentation/screen/sellable_info_screen..dart:78 - "Balance: {param0} {param1}"
+Context:
+  77:                         subtitle: Text(
+  78:                             "Balance: ${assetBalance?.balance} ${assetBalance?.packagingOption?.packageKey ?? ""}"),
+  79:                       );
+  80:                     },
+
+29. lib/features/assets/presentation/screen/collect_sellable_asset.dart:134 - "Balance: {param0} {param1}"
+Context:
+  133:                   Text(
+  134:                       'Balance: ${selectedAssetBalance.balance} ${selectedAssetBalance?.packagingOption?.packageKey ?? ""}'),
+  135:                 SizedBox(height: 8),
+  136:                 TextFormField(
+
+30. lib/features/assets/presentation/screen/partial_asset_collection_request_screen.dart:166 - "Delivery #{param0}"
+Context:
+  165:                         Text(
+  166:                             'Delivery #${assetPartialCollectionRequest.deliveryId}'),
+  167:                         Text("Collect: ${assetProductItem.collectedQuantity}")
+  168:                       ],
+
+31. lib/features/assets/presentation/screen/partial_asset_collection_request_screen.dart:193 - "{param0} by: {param1}"
+Context:
+  192:                                   Text(
+  193:                                       "${getTitle(assetPartialCollectionRequest.status)} by: ${assetPartialCollectionRequest.approvedBy}"),
+  194:                                   Text(
+  195:                                       "${getTitle(assetPartialCollectionRequest.status)} reason: ${assetPartialCollectionRequest?.approvalReason ?? ''}"),
+
+32. lib/features/assets/presentation/screen/partial_asset_collection_request_screen.dart:201 - "{param0} at: {param1}"
+Context:
+  200:                                     child: Text(
+  201:                                         "${getTitle(assetPartialCollectionRequest.status)} at: ${assetPartialCollectionRequest.approvedAt}"),
+  202:                                   ),
+  203:                                 ],
+
+33. lib/features/assets/presentation/screen/asset_screen_v2.dart:397 - "Customer balance : {param0}"
+Context:
+  396:                             child: Text(
+  397:                                 'Customer balance : ${assetBalanceByCustomer?.balance ?? 0}'),
+  398:                           ),
+  399:                         if (action != AssetMovementAction.collect &&
+
+34. lib/features/assets/presentation/screen/asset_screen_v2.dart:468 - " Customer has a balance of: {param0}"
+Context:
+  467:                           Text(
+  468:                             " Customer has a balance of: ${selectedAssetBalanceByCustomer?.balance ?? 0}",
+  469:                             style: TextStyle(color: Colors.grey[600]),
+  470:                           ),
+
+35. lib/features/assets/presentation/screen/assets_screen.dart:318 - "ASSET CODE - {param0}"
+Context:
+  317:                                   child: Text(
+  318:                                       "ASSET CODE - ${assetMovement.assetCode}",
+  319:                                       style: TextStyle(
+  320:                                           color: Colors.grey[600],
+
+36. lib/features/assets/presentation/screen/assets_screen.dart:369 - "Phone number: {param0}"
+Context:
+  368:                               child: Text(
+  369:                                   "Phone number: ${assetMovement.phone}",
+  370:                                   style: TextStyle(
+  371:                                       color: Colors.grey[600], fontSize: 14)),
+
+37. lib/features/printer/utils/printers/sunmi.dart:153 - "DATE: {param0}"
+Context:
+  152:     await SunmiPrinter.printText(
+  153:         "DATE: ${formatDate(orderCreditNote.createdAt, "dd/MM/yyyy h:mm a")}");
+  154:     if (!roleManager.hasRole(Roles.HIDE_DOC_NUMBER))
+  155:       await SunmiPrinter.printText("DOC NO: ${orderCreditNote.orderId}");
+
+38. lib/features/printer/utils/printers/sunmi.dart:467 - "Discount {param0}"
+Context:
+  466:         await SunmiPrinter.printText(
+  467:           "Discount $discount",
+  468:           style: SunmiStyle(align: SunmiPrintAlign.LEFT),
+  469:         );
+
+39. lib/features/dashboard/presentation/screens/geo_mapping_dashboard_screen.dart:202 - "CHECKIN: {param0}"
+Context:
+  201:                                           Text(
+  202:                                             "CHECKIN: ${formatDate((contactCheckinManager.contactCheckin != null) ? contactCheckinManager.contactCheckin?.checkinTime : projectCheckinManager.projectCheckin?.checkinTime, "jms")}",
+  203:                                             style: TextStyle(
+  204:                                               fontSize: 12.0,
+
+40. lib/features/share_of_display/presentation/screen/add_sod_screen.dart:320 - "NOTES: {param0}"
+Context:
+  319:                                                 child: Text(
+  320:                                                   "NOTES: ${brandItem.notes}",
+  321:                                                   style: TextStyle(
+  322:                                                       fontWeight:
+
+41. lib/features/appointments/presentation/screens/appointment_checkin_screen.dart:261 - "Empty notes"
+Context:
+  260:                                                       ),
+> 261:                                                       Text(appointmentNote.notes ?? "Empty notes"),
+  262:                                                     ],
+  263:                                                   ),
+
+42. lib/legacy/widgets/project_task_tile.dart:33 - "1:20 PM"
+Context:
+  32:               Text(
+> 33:                 '1:20 PM',
+  34:                 style: TextStyle(color: Colors.grey[600])
+  35:               ),
+
+43. lib/legacy/widgets/project_task_tile.dart:46 - "2 days ago"
+Context:
+  45:                   Spacer(),
+> 46:                   Text('2 days ago', style: TextStyle(color: Colors.grey[600]))
+  47:                 ],
+  48:               )
+
+44. lib/legacy/widgets/inventory_checked_in_card.dart:35 - "STOCKPOINT CHECKIN: {param0}"
+Context:
+  34:                           Text(
+  35:                             "STOCKPOINT CHECKIN: ${formatDate(sessionInventoryManager.session?.startTime, "jms")}",
+  36:                             style: TextStyle(
+  37:                               fontSize: 12.0,
+

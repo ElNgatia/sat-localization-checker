@@ -19,19 +19,17 @@ class StringLiteralVisitor extends RecursiveAstVisitor<void> {
   void visitStringInterpolation(StringInterpolation node) {
     final parts = <String>[];
     var placeholderIndex = 0;
-    var hasOnlyVariables = true;
     var hasWords = false;
+    var rawContent = '';
 
     for (final element in node.elements) {
       if (element is InterpolationString) {
         final text = element.value;
-        if (text.isNotEmpty) {
-          parts.add(text);
-          hasOnlyVariables = false;
-          if (RegExp(r'[a-zA-Z]{2,}').hasMatch(text)) {
-            hasWords = true;
-          }
+        rawContent += text;
+        if (text.trim().isNotEmpty && RegExp(r'[a-zA-Z]{2,}').hasMatch(text)) {
+          hasWords = true;
         }
+        parts.add(text);
       } else if (element is InterpolationExpression) {
         parts.add('{param$placeholderIndex}');
         placeholderIndex++;
@@ -39,14 +37,30 @@ class StringLiteralVisitor extends RecursiveAstVisitor<void> {
     }
 
     final content = parts.join();
-    if (!hasOnlyVariables && content.isNotEmpty) {
-      _addLiteral(node, true, content);
+
+    // If there's no real word and the raw content is only punctuation/space, skip
+    if (!hasWords) {
+      if (verbose) {
+        print('AST: Skipping "$content" (no real words)');
+      }
+      return;
     }
+
+    _addLiteral(node, true, content);
   }
 
   @override
   void visitAdjacentStrings(AdjacentStrings node) {
     final content = node.strings.map((s) => s is SimpleStringLiteral ? s.value : '').join();
+
+    // Skip if it's only punctuation or whitespace
+    if (content.trim().isEmpty || !RegExp(r'[a-zA-Z]{2,}').hasMatch(content)) {
+      if (verbose) {
+        print('AST: Skipping adjacent strings "$content" (no real words)');
+      }
+      return;
+    }
+
     if (content.isNotEmpty) {
       _addLiteral(node, false, content);
     }
