@@ -23,24 +23,29 @@ class StringFilter {
   StringFilter(this.config);
 
   bool shouldSkip(String content) {
-    if (content.isEmpty || content.trim().isEmpty || content.length == 1)
-      return true;
-    if (RegExp(r'^[0-9.,]+$').hasMatch(content)) return true;
-    if (RegExp(r'^[!@#$%^&*()_\-+=<>?/|\\{}\[\]]+$').hasMatch(content))
-      return true;
-    if (content.startsWith('http://') || content.startsWith('https://'))
-      return true;
-    if (content.startsWith('assets/') || content.contains('.dart')) return true;
+  if (content.isEmpty || content.trim().isEmpty || content.length == 1) return true;
+  if (RegExp(r'^[0-9.,]+$').hasMatch(content)) return true;
+  if (RegExp(r'^[!@#$%^&*()_\-+=<>?/|\\{}\[\]]+$').hasMatch(content)) return true;
+  if (content.startsWith('http://') || content.startsWith('https://')) return true;
+  if (content.startsWith('assets/') || content.contains('.dart')) return true;
 
-    // Keep interpolated strings with text
-    if (content.contains(r'${') && content.contains('}') && content.length > 5)
-      return false;
+  // Skip interpolated strings with translate function
+  if (content.contains(r'${') && content.contains('translate(')) return true;
 
-    // Keep potential UI text
-    if (content.length > 3 && content.contains(' ') && !content.contains('://'))
-      return false;
+  // Skip strings using .trWith( for params
+  if (content.contains('.trWith(')) return true;
 
-    return true;
+  // Skip strings using .tr() with no params
+  if (content.contains('.tr(')) return true;
+
+
+  // Keep interpolated strings with text (but without translate)
+  if (content.contains(r'${') && content.contains('}') && content.length > 5) return false;
+
+  // Keep potential UI text
+  if (content.length > 3 && content.contains(' ') && !content.contains('://')) return false;
+
+  return true;
   }
 
   bool isLocalized(String line, String content, Set<String> localizedKeys) {
