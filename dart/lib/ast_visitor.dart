@@ -20,6 +20,7 @@ class StringLiteralVisitor extends RecursiveAstVisitor<void> {
     final parts = <String>[];
     var placeholderIndex = 0;
     var hasOnlyVariables = true;
+    var hasWords = false;
 
     for (final element in node.elements) {
       if (element is InterpolationString) {
@@ -27,6 +28,9 @@ class StringLiteralVisitor extends RecursiveAstVisitor<void> {
         if (text.isNotEmpty) {
           parts.add(text);
           hasOnlyVariables = false;
+          if (RegExp(r'[a-zA-Z]{2,}').hasMatch(text)) {
+            hasWords = true;
+          }
         }
       } else if (element is InterpolationExpression) {
         parts.add('{param$placeholderIndex}');
@@ -42,8 +46,7 @@ class StringLiteralVisitor extends RecursiveAstVisitor<void> {
 
   @override
   void visitAdjacentStrings(AdjacentStrings node) {
-    final content =
-        node.strings.map((s) => s is SimpleStringLiteral ? s.value : '').join();
+    final content = node.strings.map((s) => s is SimpleStringLiteral ? s.value : '').join();
     if (content.isNotEmpty) {
       _addLiteral(node, false, content);
     }
