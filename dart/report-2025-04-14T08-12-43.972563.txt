@@ -1,18 +1,18 @@
 Found 44 non-localized strings:
 
-1. lib/features/comments/presentation/screens/customer_comments_screen.dart:85 - "27th April 2022"
-Context:
-  84:                       Text(
-> 85:                         "27th April 2022",
-  86:                         style: TextStyle(color: Colors.grey[400]),
-  87:                       ),
-
-2. lib/features/comments/presentation/screens/all_comments_screen.dart:89 - "23rd Sept 2021"
+1. lib/features/comments/presentation/screens/all_comments_screen.dart:89 - "23rd Sept 2021"
 Context:
   88:                   Text(
 > 89:                     "23rd Sept 2021",
   90:                     style: TextStyle(fontSize: 11, color: Colors.grey[600]),
   91:                   )
+
+2. lib/features/comments/presentation/screens/customer_comments_screen.dart:85 - "27th April 2022"
+Context:
+  84:                       Text(
+> 85:                         "27th April 2022",
+  86:                         style: TextStyle(color: Colors.grey[400]),
+  87:                       ),
 
 3. lib/features/start_end_day/presentation/screen/close_day_screen.dart:259 - "Why did you sell {param0} only?*"
 Context:
@@ -126,19 +126,19 @@ Context:
   105:                                               style: TextStyle(
   106:                                                   fontWeight: FontWeight.w500,
 
-19. lib/features/inventory/presentation/screen/inventory_screen.dart:244 - "TOTAL: {param0} {param1}"
-Context:
-  243:                                                 child: Text(
-  244:                                                   "TOTAL: ${authManager.user?.country?.currencyCode} ${formatCurrency(bloc.totalValue)}",
-  245:                                                   style: TextStyle(
-  246:                                                       fontSize: 18,
-
-20. lib/features/inventory/presentation/screen/inventory_checkin_screen.dart:163 - "STOCKPOINT CHECKIN: {param0}"
+19. lib/features/inventory/presentation/screen/inventory_checkin_screen.dart:163 - "STOCKPOINT CHECKIN: {param0}"
 Context:
   162:                                                 Text(
   163:                                                   "STOCKPOINT CHECKIN: ${formatDate(sessionInventoryManager.session?.startTime, "jms")}",
   164:                                                   style: TextStyle(
   165:                                                     fontSize: 12.0,
+
+20. lib/features/inventory/presentation/screen/inventory_screen.dart:244 - "TOTAL: {param0} {param1}"
+Context:
+  243:                                                 child: Text(
+  244:                                                   "TOTAL: ${authManager.user?.country?.currencyCode} ${formatCurrency(bloc.totalValue)}",
+  245:                                                   style: TextStyle(
+  246:                                                       fontSize: 18,
 
 21. lib/features/activations/presentation/screens/activations_screen.dart:462 - "{param0} Day(s)"
 Context:
@@ -196,61 +196,61 @@ Context:
   79:                       );
   80:                     },
 
-29. lib/features/assets/presentation/screen/collect_sellable_asset.dart:134 - "Balance: {param0} {param1}"
-Context:
-  133:                   Text(
-  134:                       'Balance: ${selectedAssetBalance.balance} ${selectedAssetBalance?.packagingOption?.packageKey ?? ""}'),
-  135:                 SizedBox(height: 8),
-  136:                 TextFormField(
-
-30. lib/features/assets/presentation/screen/partial_asset_collection_request_screen.dart:166 - "Delivery #{param0}"
+29. lib/features/assets/presentation/screen/partial_asset_collection_request_screen.dart:166 - "Delivery #{param0}"
 Context:
   165:                         Text(
   166:                             'Delivery #${assetPartialCollectionRequest.deliveryId}'),
   167:                         Text("Collect: ${assetProductItem.collectedQuantity}")
   168:                       ],
 
-31. lib/features/assets/presentation/screen/partial_asset_collection_request_screen.dart:193 - "{param0} by: {param1}"
+30. lib/features/assets/presentation/screen/partial_asset_collection_request_screen.dart:193 - "{param0} by: {param1}"
 Context:
   192:                                   Text(
   193:                                       "${getTitle(assetPartialCollectionRequest.status)} by: ${assetPartialCollectionRequest.approvedBy}"),
   194:                                   Text(
   195:                                       "${getTitle(assetPartialCollectionRequest.status)} reason: ${assetPartialCollectionRequest?.approvalReason ?? ''}"),
 
-32. lib/features/assets/presentation/screen/partial_asset_collection_request_screen.dart:201 - "{param0} at: {param1}"
+31. lib/features/assets/presentation/screen/partial_asset_collection_request_screen.dart:201 - "{param0} at: {param1}"
 Context:
   200:                                     child: Text(
   201:                                         "${getTitle(assetPartialCollectionRequest.status)} at: ${assetPartialCollectionRequest.approvedAt}"),
   202:                                   ),
   203:                                 ],
 
-33. lib/features/assets/presentation/screen/assets_screen.dart:318 - "ASSET CODE - {param0}"
+32. lib/features/assets/presentation/screen/collect_sellable_asset.dart:134 - "Balance: {param0} {param1}"
 Context:
-  317:                                   child: Text(
-  318:                                       "ASSET CODE - ${assetMovement.assetCode}",
-  319:                                       style: TextStyle(
-  320:                                           color: Colors.grey[600],
+  133:                   Text(
+  134:                       'Balance: ${selectedAssetBalance.balance} ${selectedAssetBalance?.packagingOption?.packageKey ?? ""}'),
+  135:                 SizedBox(height: 8),
+  136:                 TextFormField(
 
-34. lib/features/assets/presentation/screen/assets_screen.dart:369 - "Phone number: {param0}"
-Context:
-  368:                               child: Text(
-  369:                                   "Phone number: ${assetMovement.phone}",
-  370:                                   style: TextStyle(
-  371:                                       color: Colors.grey[600], fontSize: 14)),
-
-35. lib/features/assets/presentation/screen/asset_screen_v2.dart:397 - "Customer balance : {param0}"
+33. lib/features/assets/presentation/screen/asset_screen_v2.dart:397 - "Customer balance : {param0}"
 Context:
   396:                             child: Text(
   397:                                 'Customer balance : ${assetBalanceByCustomer?.balance ?? 0}'),
   398:                           ),
   399:                         if (action != AssetMovementAction.collect &&
 
-36. lib/features/assets/presentation/screen/asset_screen_v2.dart:468 - " Customer has a balance of: {param0}"
+34. lib/features/assets/presentation/screen/asset_screen_v2.dart:468 - " Customer has a balance of: {param0}"
 Context:
   467:                           Text(
   468:                             " Customer has a balance of: ${selectedAssetBalanceByCustomer?.balance ?? 0}",
   469:                             style: TextStyle(color: Colors.grey[600]),
   470:                           ),
+
+35. lib/features/assets/presentation/screen/assets_screen.dart:318 - "ASSET CODE - {param0}"
+Context:
+  317:                                   child: Text(
+  318:                                       "ASSET CODE - ${assetMovement.assetCode}",
+  319:                                       style: TextStyle(
+  320:                                           color: Colors.grey[600],
+
+36. lib/features/assets/presentation/screen/assets_screen.dart:369 - "Phone number: {param0}"
+Context:
+  368:                               child: Text(
+  369:                                   "Phone number: ${assetMovement.phone}",
+  370:                                   style: TextStyle(
+  371:                                       color: Colors.grey[600], fontSize: 14)),
 
 37. lib/features/printer/utils/printers/sunmi.dart:153 - "DATE: {param0}"
 Context:

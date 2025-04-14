@@ -39,15 +39,23 @@ void main(List<String> args) {
     arbOutputDir: results['arb-output'],
   )
       .then((_) {
-    final report = ReportGenerator.generate(checker.results);
-    File(results['output']).writeAsStringSync(report);
-    print('Report written to ${results['output']}');
+  final report = ReportGenerator.generate(checker.results);
 
-    if (results['modify-files']) {
-      checker.modifyFilesWithLocalizationKeys();
-      print('Files modified with localization keys.');
-    }
-  }).catchError((e) {
+  final outputFile = results['output'] as String;
+  final timestamp = DateTime.now().toIso8601String().replaceAll(':', '-');
+  final outputFileWithTimestamp = outputFile.replaceFirst(
+    RegExp(r'\.txt$'),
+    '-$timestamp.txt',
+  );
+
+  File(outputFileWithTimestamp).writeAsStringSync(report);
+  print('Report written to $outputFileWithTimestamp');
+
+  if (results['modify-files']) {
+    checker.modifyFilesWithLocalizationKeys();
+    print('Files modified with localization keys.');
+  }
+}).catchError((e) {
     print('Error: $e');
     exit(1);
   });
